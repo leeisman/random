@@ -142,7 +142,7 @@
                 this.items = this.getCookie(val);
 
                 if (!this.items) {
-                    this.items = [];
+                    this.items = ['','',''];
                 }
             }
         },
@@ -181,12 +181,15 @@
                 this.setCookie(this.typeCookieName, this.types);
             },
             addItems: function () {
-                this.items.push('');
+
+                var items = this.getInputItems();
+                items.push('');
+                this.items = items;
             },
             random: function () {
 
                 var that = this;
-                var values = this.getRandomItems();
+                var values = this.getInputItems();
                 this.setCookie(this.type, values);
                 var item = values[Math.floor(Math.random() * values.length)];
 
@@ -211,10 +214,12 @@
                     ]
                 });
             },
-            getRandomItems: function () {
+            getInputItems: function () {
                 var values = $("input[name='products[]']")
                         .map(function () {
-                            return $(this).val();
+                            if($(this).val().length > 0){
+                                return $(this).val();
+                            }
                         }).get();
 
                 return values;
