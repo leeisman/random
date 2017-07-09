@@ -75,7 +75,7 @@
 
     <div class="col-md-12" style="margin-top: 20px;margin-bottom: 20px">
         <input type="button" value="新增項目" class="btn-primary" @click='addItems'>
-        <input type="button" value="清空項目" class="btn-danger" @click='random'>
+        <input type="button" value="清空項目" class="btn-danger" @click='clearItems'>
 
         <input type="button" value="開始隨機選取" class="btn-success" @click='random'>
     </div>
@@ -113,7 +113,7 @@
     var vm = new Vue({
         el: '#main-content',
         data: {
-            sampleItems: ['公館夜市','師大夜市','樂華夜市',
+            sampleItems: ['公館夜市', '師大夜市', '樂華夜市',
                 '三和夜市', '樹林花園夜市夜市', '饒河夜市',
                 '蘆洲夜市', '通化夜市', '士林夜市'],
             items: [],
@@ -165,7 +165,6 @@
                         cssClass: 'btn-primary',
                         hotkey: null, // Enter.
                         action: function (dialogItself) {
-                            console.log(dialogItself);
                             dialogItself.close();
                         }
                     }],
@@ -244,6 +243,10 @@
             },
             pushSampleItems: function () {
                 this.items = this.sample;
+            },
+            clearItems: function () {
+                this.items=[];
+                this.setCookie(this.type, this.items);
             }
         }
 
