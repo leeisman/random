@@ -5,7 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>隨機選擇器</title>
+
+    <link rel="shortcut icon" href="roulette.png"/>
+
 
     <!-- Fonts -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -27,12 +30,54 @@
     <script src="https://cdn.jsdelivr.net/bootstrap.switch/4.0.0-alpha.1/js/bootstrap-switch.min.js"></script>
 
 
+    <!-- bootstrap-select -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/css/bootstrap-select.min.css">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.3/js/bootstrap-select.min.js"></script>
+
+
+    <!-- bootstrap-switch CSS -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap2/bootstrap-switch.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+    {{--bootstrap-dialog --}}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/css/bootstrap-dialog.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap3-dialog/1.35.4/js/bootstrap-dialog.min.js"></script>
 </head>
 <body>
 <div class="container" id="main-content">
-    <div class="col-md-12" style="margin-top: 20px">
-        <input type="button" value="增加" class="btn-primary" @click='addItems'>
-        <input type="button" value="Random" class="btn-success" @click='random'>
+
+    <div class="col-md-12">
+        <h1>
+            <img src="roulette.png" style="max-height: 120px; max-width: 120px">
+            隨機選取機
+        </h1>
+        <p style="color: red">請在下方輸入隨機項目 </p>
+    </div>
+
+    <div class="col-md-12">
+        <select class="selectpicker" id="types" v-model="type">
+            <option v-for="type in types">@{{type}}</option>
+        </select>
+        <input type="button" value="新增類別" class="btn-primary" @click='addType'>
+    </div>
+
+    <div class="col-md-12" style="margin-top: 20px;margin-bottom: 20px">
+        <input type="button" value="新增項目" class="btn-primary" @click='addItems'>
+        <input type="button" value="清空項目" class="btn-danger" @click='random'>
+
+        <input type="button" value="開始隨機選取" class="btn-success" @click='random'>
     </div>
     <div class="col-md-12">
         <table class="table">
@@ -44,12 +89,20 @@
             </thead>
             <tbody v-for="item,index in items">
             <tr>
-                <th scope="row">@{{ index+1 }}</th>
+                <th scope="row">@{{ index+1 }}
+                    <input type="button" value="X" @click='removeItem(index)'>
+                </th>
                 <td><input name="products[]" type="text" :value="item"></td>
             </tr>
             </tbody>
 
         </table>
+    </div>
+
+    <div class="col-md-12">
+        <div class="make-switch switch-small">
+            自動記錄：<input type="checkbox" checked="true" data-checkbox="VALUE1" class="alert-status">
+        </div>
     </div>
 
 </div>
@@ -60,20 +113,101 @@
     var vm = new Vue({
         el: '#main-content',
         data: {
-            items: 1,
-            randomItems: []
+            sampleItems: ['三和夜市', '新莊夜市', '饒河夜市', '通化夜市', '士林夜市'],
+            items: [],
+            types: ['範本'],
+            typeCookieName: 'randomTypes',
+            type: null,
+        },
+        mounted: function () {
+            var types = this.getCookie(this.typeCookieName);
+            console.log(types[1]);
+            if (!types) {
+                this.type = types[1];
+                return;
+            }
+            this.type = '範本';
+            this.types = types;
+        },
+        watch: {
+            type: function (val) {
+                if (val === '範本') {
+                    this.items = this.sampleItems;
+                    return;
+                }
+
+                this.items = this.getCookie(val);
+
+                if (!this.items) {
+                    this.items = [];
+                }
+            }
+        },
+        updated: function () {
+            this.refreshSelectpicker();
         },
         methods: {
+            refreshSelectpicker: function () {
+                $('.selectpicker').selectpicker('refresh');
+            },
+            addType: function () {
+
+                var that = this;
+
+                BootstrapDialog.show({
+                    title: '新增類別',
+                    message: $('<input class="form-control" placeholder="請輸入類別名稱"></input>'),
+                    buttons: [{
+                        label: '完成',
+                        cssClass: 'btn-primary',
+                        hotkey: null, // Enter.
+                        action: function (dialogItself) {
+                            console.log(dialogItself);
+                            dialogItself.close();
+                        }
+                    }],
+                    onhide: function (dialogRef) {
+                        var typeName = dialogRef.getModalBody().find('input').val();
+                        if (typeName.length > 0) {
+                            that.insertTypeToCookie(typeName.toLowerCase());
+                        }
+                    },
+                });
+            },
+            insertTypeToCookie: function (name) {
+                this.types.push(name);
+                this.setCookie(this.typeCookieName, this.types);
+            },
             addItems: function () {
-                this.items++;
+                this.items.push('');
             },
             random: function () {
 
+                var that = this;
                 var values = this.getRandomItems();
-                this.setCookie('randomItems',values);
+                this.setCookie(this.type, values);
                 var item = values[Math.floor(Math.random() * values.length)];
 
-                alert(item);
+                BootstrapDialog.show({
+                    title: '恭喜你',
+                    message: '你選中『' + item + '』 喔～ 想賴個皮可按鍵盤『Ａ』',
+                    buttons: [{
+                        label: '重選',
+                        hotkey: 65, // Keycode of keyup event of key 'A' is 65.
+                        action: function (dialogItself) {
+                            that.random();
+                            dialogItself.close();
+                        }
+                    },
+                        {
+                            label: '關閉',
+                            hotkey: 13, // Keycode of keyup event of key 'A' is 65.
+                            action: function (dialogItself) {
+                                dialogItself.close();
+                            }
+                        },
+                    ]
+                });
             },
             getRandomItems: function () {
                 var values = $("input[name='products[]']")
@@ -102,14 +236,23 @@
                     }
                 }
             },
+            removeItem: function (index) {
+                this.items.splice(index, 1);
+            },
+            pushSampleItems: function () {
+                this.items = this.sample;
+            }
         }
 
     })
 
-    var items = vm.getCookie('randomItems');
-    if(items.length > 0){
-        vm.items = this.items;
-    }
-    console.log(vm.getCookie('randomItems'));
+    $('.selectpicker').selectpicker({
+        style: 'btn-info',
+        size: 4
+    });
+
+    $(function () {
+        $('.alert-status').bootstrapSwitch('state', true);
+    });
 
 </script>
