@@ -71,12 +71,12 @@
             <option v-for="type in types">@{{type}}</option>
         </select>
         <input type="button" value="新增類別" class="btn-primary" @click='addType'>
+        <input type="button" value="清空所有類別項目" class="btn-danger" @click='clearCookies'>
     </div>
 
     <div class="col-md-12" style="margin-top: 20px;margin-bottom: 20px">
         <input type="button" value="新增項目" class="btn-primary" @click='addItems'>
         <input type="button" value="清空項目" class="btn-danger" @click='clearItems'>
-
         <input type="button" value="開始隨機選取" class="btn-success" @click='random'>
     </div>
     <div class="col-md-12">
@@ -179,6 +179,7 @@
             insertTypeToCookie: function (name) {
                 this.types.push(name);
                 this.setCookie(this.typeCookieName, this.types);
+                this.type = name;
             },
             addItems: function () {
 
@@ -252,6 +253,15 @@
             clearItems: function () {
                 this.items=[];
                 this.setCookie(this.type, this.items);
+            },
+            clearCookies:function(){
+                var cookie = document.cookie.split(';');
+                for (var i = 0; i <cookie.length; i++) {
+                    var chip = cookie[i],
+                            entry = chip.split("="),
+                            name = entry[0];
+                    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+                }
             }
         }
 
