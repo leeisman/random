@@ -113,20 +113,23 @@
     var vm = new Vue({
         el: '#main-content',
         data: {
-            sampleItems: ['三和夜市', '新莊夜市', '饒河夜市', '通化夜市', '士林夜市'],
+            sampleItems: ['公館夜市','師大夜市','樂華夜市',
+                '三和夜市', '樹林花園夜市夜市', '饒河夜市',
+                '蘆洲夜市', '通化夜市', '士林夜市'],
             items: [],
             types: ['範本'],
             typeCookieName: 'randomTypes',
             type: null,
         },
         mounted: function () {
+
+            this.type = '範本';
+
             var types = this.getCookie(this.typeCookieName);
-            console.log(types[1]);
             if (!types) {
-                this.type = types[1];
                 return;
             }
-            this.type = '範本';
+
             this.types = types;
         },
         watch: {
