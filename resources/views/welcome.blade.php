@@ -272,8 +272,7 @@
     });
 
     $(function () {
-        document.cookie = 'random=123';
-        alert(decodeURIComponent(document.cookie));
+        alert(vm.types);
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
