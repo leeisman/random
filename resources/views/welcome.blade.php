@@ -218,9 +218,7 @@
             getInputItems: function () {
                 var values = $("input[name='products[]']")
                         .map(function () {
-                            if($(this).val().length > 0){
-                                return $(this).val();
-                            }
+                            return $(this).val();
                         }).get();
 
                 return values;
