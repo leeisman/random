@@ -178,7 +178,6 @@
             },
             insertTypeToCookie: function (name) {
                 this.types.push(name);
-                alert(this.types);
                 this.setCookie(this.typeCookieName, this.types);
                 this.type = name;
             },
@@ -227,7 +226,9 @@
             setCookie: function (name, items) {
                 document.cookie = name + "=" +
                         items +
-                        ";path=/";
+                        ";";
+
+                alert(decodeURIComponent(document.cookie));
             },
             getCookie: function (name) {
                 var decodedCookie = decodeURIComponent(document.cookie);
