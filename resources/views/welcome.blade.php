@@ -178,6 +178,7 @@
             },
             insertTypeToCookie: function (name) {
                 this.types.push(name);
+                alert(this.types);
                 this.setCookie(this.typeCookieName, this.types);
                 this.type = name;
             },
@@ -272,7 +273,6 @@
     });
 
     $(function () {
-        alert(vm.types);
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
