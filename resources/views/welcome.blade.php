@@ -272,6 +272,7 @@
     });
 
     $(function () {
+        alert(decodeURIComponent(document.cookie));
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
