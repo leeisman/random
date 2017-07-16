@@ -224,10 +224,10 @@
                 return values;
             },
             setCookie: function (name, items) {
-                
-                document.cookie = name + "='" +
-                        items.toString() +
-                        "';";
+
+                document.cookie = name + "=" +
+                        '我我我,你你你'+
+                        ";";
 
                 alert(decodeURIComponent(document.cookie));
             },
