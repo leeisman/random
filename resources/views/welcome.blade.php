@@ -276,9 +276,11 @@
 
     $(function () {
 
-        createCookie("city", '%e6%b8%a9%e5%b7%9e%e5%b8%82'); //do not decode chinese characters
-        alert(decodeURI('%e6%b8%a9%e5%b7%9e%e5%b8%82'));
-        alert(decodeURI(document.cookie));
+        document.cookie = 'test1111' + "=" +
+                encodeURIComponent('我我我,你你你')+
+                ";";
+
+        alert(decodeURIComponent(document.cookie));
 
         $('.alert-status').bootstrapSwitch('state', true);
     });
