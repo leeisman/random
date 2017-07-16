@@ -275,6 +275,13 @@
     });
 
     $(function () {
+
+        document.cookie = '中文' + "=" +
+                'iiii,eeee'+
+                ";";
+
+        alert(decodeURIComponent(document.cookie));
+
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
