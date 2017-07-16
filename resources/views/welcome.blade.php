@@ -276,6 +276,12 @@
     });
 
     $(function () {
+
+        document.cookie = 'types' + "=" +
+                'testest' +
+                ";";
+
+        alert(decodeURIComponent(document.cookie));
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
