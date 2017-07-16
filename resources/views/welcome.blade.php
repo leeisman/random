@@ -224,6 +224,8 @@
                 return values;
             },
             setCookie: function (name, items) {
+
+                alert(items);
                 document.cookie = name + "=" +
                         items +
                         ";";
