@@ -178,7 +178,7 @@
             },
             insertTypeToCookie: function (name) {
                 this.types.push(name);
-                this.setCookie(this.typeCookieName, this.types);
+                this.setCookie(this.typeCookieName, this.types.toString());
                 this.type = name;
             },
             addItems: function () {
@@ -226,7 +226,7 @@
             setCookie: function (name, items) {
 
                 alert(items);
-                document.cookie =  "types" + "=" +
+                document.cookie =  name+ "=" +
                         items +
                         ";";
 
