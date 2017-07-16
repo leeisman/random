@@ -183,14 +183,14 @@
             },
             addItems: function () {
 
-                var items = this.getInputItems();
+                var items = this.getInputItems(true);
                 items.push('');
                 this.items = items;
             },
             random: function () {
 
                 var that = this;
-                var values = this.getInputItems();
+                var values = this.getInputItems(false);
                 this.setCookie(this.type, values);
                 var item = values[Math.floor(Math.random() * values.length)];
 
@@ -215,10 +215,19 @@
                     ]
                 });
             },
-            getInputItems: function () {
+            getInputItems: function (haveNull) {
+
                 var values = $("input[name='products[]']")
                         .map(function () {
-                            return $(this).val();
+
+                            if(haveNull == true){
+                                return $(this).val();
+                            }
+
+                            if($(this).val().length > 0){
+                                return $(this).val();
+                            }
+
                         }).get();
 
                 return values;
