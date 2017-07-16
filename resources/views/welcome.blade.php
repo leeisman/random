@@ -142,7 +142,7 @@
                 this.items = this.getCookie(val);
 
                 if (!this.items) {
-                    this.items = ['','',''];
+                    this.items = ['', '', ''];
                 }
             }
         },
@@ -178,7 +178,7 @@
             },
             insertTypeToCookie: function (name) {
                 this.types.push(name);
-                this.setCookie(this.typeCookieName, this.types.toString());
+                this.setCookie(this.typeCookieName, this.types);
                 this.type = name;
             },
             addItems: function () {
@@ -225,9 +225,10 @@
             },
             setCookie: function (name, items) {
 
-                alert(items);
-                document.cookie =  name+ "=" +
-                        'test,test,test' +
+                var itemsString = items.toString();
+                alert(itemsString);
+                document.cookie = name + "=" +
+                        itemsString +
                         ";";
 
                 alert(decodeURIComponent(document.cookie));
@@ -253,12 +254,12 @@
                 this.items = this.sample;
             },
             clearItems: function () {
-                this.items=[];
+                this.items = [];
                 this.setCookie(this.type, this.items);
             },
-            clearCookies:function(){
+            clearCookies: function () {
                 var cookie = document.cookie.split(';');
-                for (var i = 0; i <cookie.length; i++) {
+                for (var i = 0; i < cookie.length; i++) {
                     var chip = cookie[i],
                             entry = chip.split("="),
                             name = entry[0];
