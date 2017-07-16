@@ -228,8 +228,6 @@
                 document.cookie = encodeURIComponent(name) + "=" +
                         encodeURIComponent(items)+
                         ";";
-
-                alert(decodeURIComponent(document.cookie));
             },
             getCookie: function (name) {
                 var decodedCookie = decodeURIComponent(document.cookie);
