@@ -227,7 +227,7 @@
 
                 alert(items);
                 document.cookie =  "types" + "=" +
-                        "testest" +
+                        items +
                         ";";
 
                 alert(decodeURIComponent(document.cookie));
