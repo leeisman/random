@@ -224,12 +224,10 @@
                 return values;
             },
             setCookie: function (name, items) {
-
-                var itemsString = 'res,resr';
-                alert(itemsString);
-                document.cookie = name + "=" +
-                        itemsString +
-                        ";";
+                
+                document.cookie = name + "='" +
+                        items.toString() +
+                        "';";
 
                 alert(decodeURIComponent(document.cookie));
             },
