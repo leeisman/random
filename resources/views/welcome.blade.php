@@ -225,8 +225,8 @@
             },
             setCookie: function (name, items) {
 
-                document.cookie = name + "=" +
-                        '我我我,你你你'+
+                document.cookie = encodeURIComponent(name) + "=" +
+                        encodeURIComponent(items)+
                         ";";
 
                 alert(decodeURIComponent(document.cookie));
@@ -275,13 +275,6 @@
     });
 
     $(function () {
-
-        document.cookie = 'test1111' + "=" +
-                encodeURIComponent('我我我,你你你')+
-                ";";
-
-        alert(decodeURIComponent(document.cookie));
-
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
