@@ -226,8 +226,8 @@
             setCookie: function (name, items) {
 
                 alert(items);
-                document.cookie = name + "=" +
-                        items +
+                document.cookie =  "types" + "=" +
+                        "testest" +
                         ";";
 
                 alert(decodeURIComponent(document.cookie));
@@ -276,12 +276,6 @@
     });
 
     $(function () {
-
-        document.cookie = 'types' + "=" +
-                'testest' +
-                ";";
-
-        alert(decodeURIComponent(document.cookie));
         $('.alert-status').bootstrapSwitch('state', true);
     });
 
