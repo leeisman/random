@@ -225,7 +225,7 @@
             },
             setCookie: function (name, items) {
 
-                var itemsString = items.toString();
+                var itemsString = 'res,resr';
                 alert(itemsString);
                 document.cookie = name + "=" +
                         itemsString +
